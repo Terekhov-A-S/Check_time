@@ -3,48 +3,31 @@ package main
 import "fmt"
 
 func main() {
-	var age int64
-	var role, status string
 
 	// Получаем входные данные и присваиваем их переменным
-	age, role, status = getInput()
-	fmt.Println(accessUser(age, role, status))
+	time := getInput()
+	checkTime(time)
 }
 
 // Функция возвращает полученные значения, не принимает параметров
-func getInput() (int64, string, string) {
-	var getAge int64
-	var getRole, getStatus string
-	fmt.Print("Введите возраст: ")
-	fmt.Scanln(&getAge)
-	fmt.Print("Введите роль: ")
-	fmt.Scanln(&getRole)
-	fmt.Print("Введите статус: ")
-	fmt.Scanln(&getStatus)
-	return getAge, getRole, getStatus
+func getInput() int64 {
+	var getTime int64
+	fmt.Print("Введите текущее время (без минут и секунд): ")
+	fmt.Scanln(&getTime)
+	return getTime
 }
 
-func accessUser(accessAge int64, accessRole string, accessStatus string) bool {
-	// Проверяем, что роль допустима
-	if accessRole != "admin" && accessRole != "moderator" && accessRole != "user" {
-		return false
+func checkTime(checkInput int64) {
+	switch checkInput {
+	case 6, 7, 8, 9, 10, 11:
+		fmt.Println("На данный момент на улице утро.")
+	case 12, 13, 14, 15, 16, 17:
+		fmt.Println("На данный момент на улице день.")
+	case 18, 19, 20, 21, 22:
+		fmt.Println("На данный момент на улице вечер.")
+	case 23, 24, 0, 1, 2, 3, 4, 5:
+		fmt.Println("На данный момент на улице ночь.")
+	default:
+		fmt.Println("Вы ввели недопустимое время из параллельной вселенной")
 	}
-
-	// Admin и moderator имеют доступ всегда
-	if accessRole == "admin" || accessRole == "moderator" {
-		return true
-	}
-
-	// Для user проверяем возраст и статус
-	if accessRole == "user" && accessStatus == "active" && accessAge >= 18 {
-		return true
-	}
-
-	return false
 }
-
-/*
-if status == "active" {true}
-if age <18 {false}
-if role == "admin" || "moderator" {true}
-*/
